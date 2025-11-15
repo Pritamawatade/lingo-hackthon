@@ -1,0 +1,45 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "chat": {
+    "title": "Chat Support",
+    "startChat": "Start Chat",
+    "yourName": "Your Name",
+    "yourLanguage": "Your Language",
+    "typeMessage": "Type your message...",
+    "send": "Send",
+    "noMessages": "No messages yet. Start the conversation!",
+    "agentWillJoin": "An agent will be with you shortly"
+  },
+  "dashboard": {
+    "title": "Agent Dashboard",
+    "activeSessions": "Active Sessions",
+    "noSessions": "No active sessions",
+    "selectSession": "Select a session to start chatting"
+  },
+  "imageUpload": {
+    "title": "Image Translation",
+    "uploadPrompt": "Click to upload or drag and drop",
+    "fileTypes": "PNG, JPG, JPEG (MAX. 10MB)",
+    "extractText": "Extract & Translate Text",
+    "processing": "Processing image...",
+    "extractedText": "Extracted Text",
+    "translation": "Translation"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Spanish",
+    "hi": "Hindi",
+    "fr": "French",
+    "de": "German",
+    "zh": "Chinese"
+  }
+}

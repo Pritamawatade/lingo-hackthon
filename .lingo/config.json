@@ -1,0 +1,27 @@
+{
+  "project": "multilingual-support-system",
+  "sourceLanguage": "en",
+  "targetLanguages": ["es", "hi", "fr", "de", "zh"],
+  "translationFiles": {
+    "format": "json",
+    "path": "locales/{locale}.json"
+  },
+  "extractionPatterns": [
+    "**/*.tsx",
+    "**/*.ts"
+  ],
+  "excludePatterns": [
+    "node_modules/**",
+    ".next/**",
+    "dist/**"
+  ],
+  "api": {
+    "endpoint": "${LINGO_API_URL}",
+    "apiKey": "${LINGO_API_KEY}"
+  },
+  "features": {
+    "autoTranslate": true,
+    "contextAware": true,
+    "pluralization": true
+  }
+}

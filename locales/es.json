@@ -1,0 +1,45 @@
+{
+  "common": {
+    "welcome": "Bienvenido",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar"
+  },
+  "chat": {
+    "title": "Soporte de Chat",
+    "startChat": "Iniciar Chat",
+    "yourName": "Tu Nombre",
+    "yourLanguage": "Tu Idioma",
+    "typeMessage": "Escribe tu mensaje...",
+    "send": "Enviar",
+    "noMessages": "Aún no hay mensajes. ¡Inicia la conversación!",
+    "agentWillJoin": "Un agente estará contigo en breve"
+  },
+  "dashboard": {
+    "title": "Panel de Agente",
+    "activeSessions": "Sesiones Activas",
+    "noSessions": "No hay sesiones activas",
+    "selectSession": "Selecciona una sesión para comenzar a chatear"
+  },
+  "imageUpload": {
+    "title": "Traducción de Imagen",
+    "uploadPrompt": "Haz clic para subir o arrastra y suelta",
+    "fileTypes": "PNG, JPG, JPEG (MÁX. 10MB)",
+    "extractText": "Extraer y Traducir Texto",
+    "processing": "Procesando imagen...",
+    "extractedText": "Texto Extraído",
+    "translation": "Traducción"
+  },
+  "languages": {
+    "en": "Inglés",
+    "es": "Español",
+    "hi": "Hindi",
+    "fr": "Francés",
+    "de": "Alemán",
+    "zh": "Chino"
+  }
+}

@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      UserRole @default(CUSTOMER)
+  language  String   @default("en")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  agentSessions Session[] @relation("AgentSessions")
+  messages      Message[]
+}
+
+model Session {
+  id               String   @id @default(cuid())
+  customerId       String?
+  customerName     String
+  customerLanguage String   @default("en")
+  agentId          String?
+  agentLanguage    String   @default("en")
+  status           SessionStatus @default(ACTIVE)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  agent    User?     @relation("AgentSessions", fields: [agentId], references: [id])
+  messages Message[]
+}
+
+model Message {
+  id                String   @id @default(cuid())
+  sessionId         String
+  senderId          String?
+  senderRole        UserRole
+  originalText      String
+  originalLanguage  String
+  translatedText    String?
+  translatedLanguage String?
+  messageType       MessageType @default(TEXT)
+  imageUrl          String?
+  createdAt         DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sender  User?   @relation(fields: [senderId], references: [id])
+}
+
+model Translation {
+  id              String   @id @default(cuid())
+  sourceText      String
+  sourceLanguage  String
+  targetText      String
+  targetLanguage  String
+  translationTime Int
+  createdAt       DateTime @default(now())
+}
+
+enum UserRole {
+  CUSTOMER
+  AGENT
+  ADMIN
+}
+
+enum SessionStatus {
+  ACTIVE
+  CLOSED
+  WAITING
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  SYSTEM
+}
