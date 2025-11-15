@@ -6,10 +6,12 @@ import { Send } from "lucide-react";
 
 interface Message {
   id: string;
-  senderRole: "CUSTOMER" | "AGENT";
+  sessionId?: string;
+  senderRole: "CUSTOMER" | "AGENT" | "SYSTEM";
   originalText: string;
   translatedText?: string;
-  originalLanguage: string;
+  originalLanguage?: string;
+  translatedLanguage?: string;
   createdAt: string;
   messageType: "TEXT" | "IMAGE" | "SYSTEM";
   imageUrl?: string;
@@ -29,12 +31,31 @@ export function ChatBox({ sessionId, userRole, language }: ChatBoxProps) {
   const socket = useSocket();
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !sessionId) return;
+
+    // Clear messages when session changes
+    setMessages([]);
 
     // Listen for new messages
-    socket.on("new-message", (message: Message) => {
-      setMessages((prev) => [...prev, message]);
-    });
+    const handleNewMessage = (message: Message) => {
+      setMessages((prev) => {
+        // Avoid duplicates
+        if (prev.some((m) => m.id === message.id)) {
+          return prev;
+        }
+        return [...prev, message];
+      });
+    };
+
+    socket.on("new-message", handleNewMessage);
+
+    // Listen for errors
+    const handleError = (error: { message: string; details?: string }) => {
+      console.error("Socket error:", error);
+      // Optionally show error to user
+    };
+
+    socket.on("error", handleError);
 
     // Load message history from API
     const fetchMessageHistory = async () => {
@@ -43,8 +64,17 @@ export function ChatBox({ sessionId, userRole, language }: ChatBoxProps) {
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.messages) {
-            setMessages(data.messages);
+            // Convert dates from strings to Date objects if needed
+            const formattedMessages = data.messages.map((msg: any) => ({
+              ...msg,
+              createdAt: typeof msg.createdAt === 'string' 
+                ? msg.createdAt 
+                : new Date(msg.createdAt).toISOString(),
+            }));
+            setMessages(formattedMessages);
           }
+        } else {
+          console.error("Failed to fetch messages:", response.statusText);
         }
       } catch (error) {
         console.error("Error fetching message history:", error);
@@ -54,7 +84,8 @@ export function ChatBox({ sessionId, userRole, language }: ChatBoxProps) {
     fetchMessageHistory();
 
     return () => {
-      socket.off("new-message");
+      socket.off("new-message", handleNewMessage);
+      socket.off("error", handleError);
     };
   }, [socket, sessionId]);
 
@@ -111,20 +142,32 @@ export function ChatBox({ sessionId, userRole, language }: ChatBoxProps) {
             No messages yet. Start the conversation!
           </div>
         ) : (
-          messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${
-                message.senderRole === userRole ? "justify-end" : "justify-start"
-              }`}
-            >
+          messages.map((message) => {
+            // Handle SYSTEM messages differently
+            if (message.messageType === "SYSTEM" || message.senderRole === "SYSTEM") {
+              return (
+                <div key={message.id} className="flex justify-center my-2">
+                  <div className="bg-gray-200 dark:bg-gray-700 rounded-lg px-4 py-2 text-sm text-gray-600 dark:text-gray-300">
+                    {message.originalText}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
               <div
-                className={`max-w-[70%] rounded-lg p-3 ${
-                  message.senderRole === userRole
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 dark:bg-gray-700"
+                key={message.id}
+                className={`flex ${
+                  message.senderRole === userRole ? "justify-end" : "justify-start"
                 }`}
               >
+                <div
+                  className={`max-w-[70%] rounded-lg p-3 ${
+                    message.senderRole === userRole
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-100 dark:bg-gray-700"
+                  }`}
+                >
                 {message.messageType === "IMAGE" && message.imageUrl && (
                   <img
                     src={message.imageUrl}
@@ -133,15 +176,32 @@ export function ChatBox({ sessionId, userRole, language }: ChatBoxProps) {
                   />
                 )}
                 
-                <p className="text-sm">
-                  {message.translatedText || message.originalText}
-                </p>
-                
-                {/* Show original text if translated */}
-                {message.translatedText && userRole === "AGENT" && (
-                  <p className="text-xs mt-2 opacity-70 italic">
-                    Original: {message.originalText}
-                  </p>
+                {/* Display message based on user role */}
+                {userRole === "AGENT" ? (
+                  // Agent sees translated text (if available) with original below
+                  <>
+                    <p className="text-sm">
+                      {message.translatedText || message.originalText}
+                    </p>
+                    {message.translatedText && message.translatedText !== message.originalText && (
+                      <p className="text-xs mt-2 opacity-70 italic border-t border-gray-300 dark:border-gray-600 pt-2">
+                        Original ({message.originalLanguage}): {message.originalText}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  // Customer sees their own messages in original, others in translated
+                  <>
+                    {message.senderRole === userRole ? (
+                      // Customer's own message - show original
+                      <p className="text-sm">{message.originalText}</p>
+                    ) : (
+                      // Agent's message - show translated to customer's language
+                      <p className="text-sm">
+                        {message.translatedText || message.originalText}
+                      </p>
+                    )}
+                  </>
                 )}
                 
                 <p className="text-xs mt-1 opacity-70">
@@ -149,7 +209,8 @@ export function ChatBox({ sessionId, userRole, language }: ChatBoxProps) {
                 </p>
               </div>
             </div>
-          ))
+            );
+          })
         )}
         <div ref={messagesEndRef} />
       </div>

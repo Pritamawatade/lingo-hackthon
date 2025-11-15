@@ -1,7 +1,7 @@
 /**
- * Lingo.dev Translation Service (CommonJS version for server.js)
- *
- * Real implementation using Lingo.dev SDK for chat translation
+ * Lingo.dev Translation Service for Runtime Chat Translation (CommonJS)
+ * 
+ * Uses Lingo.dev SDK's localizeChat for real-time message translation
  */
 
 const { LingoDotDevEngine } = require("lingo.dev/sdk");
@@ -21,7 +21,7 @@ const getLingoDotDev = () => {
 };
 
 /**
- * Translate a single message using Lingo.dev
+ * Translate a single message using Lingo.dev's localizeChat
  */
 async function translateMessage(text, sourceLanguage, targetLanguage) {
   const lingoDotDev = getLingoDotDev();
@@ -36,8 +36,15 @@ async function translateMessage(text, sourceLanguage, targetLanguage) {
     return text;
   }
 
+  // Skip if text is empty
+  if (!text || !text.trim()) {
+    return text;
+  }
+
   try {
-    // Use localizeChat for single message
+    console.log(`Translating: "${text}" from ${sourceLanguage} to ${targetLanguage}`);
+
+    // Use localizeChat with single message
     const conversation = [{ name: "user", text }];
 
     const translated = await lingoDotDev.localizeChat(conversation, {
@@ -45,7 +52,10 @@ async function translateMessage(text, sourceLanguage, targetLanguage) {
       targetLocale: targetLanguage,
     });
 
-    return translated[0]?.text || text;
+    const translatedText = translated[0]?.text || text;
+    console.log(`Translated: "${translatedText}"`);
+
+    return translatedText;
   } catch (error) {
     console.error("Translation error:", error);
     // Fallback: return original text
@@ -54,7 +64,8 @@ async function translateMessage(text, sourceLanguage, targetLanguage) {
 }
 
 /**
- * Translate multiple messages in a conversation
+ * Translate multiple messages in a conversation using Lingo.dev
+ * This maintains context across messages for better translation quality
  */
 async function translateConversation(messages, sourceLanguage, targetLanguage) {
   const lingoDotDev = getLingoDotDev();
@@ -70,11 +81,14 @@ async function translateConversation(messages, sourceLanguage, targetLanguage) {
   }
 
   try {
+    console.log(`Translating conversation (${messages.length} messages) from ${sourceLanguage} to ${targetLanguage}`);
+
     const translated = await lingoDotDev.localizeChat(messages, {
       sourceLocale: sourceLanguage,
       targetLocale: targetLanguage,
     });
 
+    console.log(`Conversation translated successfully`);
     return translated;
   } catch (error) {
     console.error("Conversation translation error:", error);

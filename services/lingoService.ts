@@ -1,7 +1,7 @@
 /**
- * Lingo.dev Translation Service
+ * Lingo.dev Translation Service for Runtime Chat Translation
  *
- * Real implementation using Lingo.dev SDK for chat translation
+ * Uses Lingo.dev SDK's localizeChat for real-time message translation
  */
 
 import { LingoDotDevEngine } from "lingo.dev/sdk";
@@ -26,7 +26,7 @@ interface ChatMessage {
 }
 
 /**
- * Translate a single message using Lingo.dev
+ * Translate a single message using Lingo.dev's localizeChat
  */
 export async function translateMessage(
   text: string,
@@ -45,8 +45,17 @@ export async function translateMessage(
     return text;
   }
 
+  // Skip if text is empty
+  if (!text || !text.trim()) {
+    return text;
+  }
+
   try {
-    // Use localizeChat for single message
+    console.log(
+      `Translating: "${text}" from ${sourceLanguage} to ${targetLanguage}`
+    );
+
+    // Use localizeChat with single message
     const conversation: ChatMessage[] = [{ name: "user", text }];
 
     const translated = await lingoDotDev.localizeChat(conversation, {
@@ -54,7 +63,10 @@ export async function translateMessage(
       targetLocale: targetLanguage,
     });
 
-    return translated[0]?.text || text;
+    const translatedText = translated[0]?.text || text;
+    console.log(`Translated: "${translatedText}"`);
+
+    return translatedText;
   } catch (error) {
     console.error("Translation error:", error);
     // Fallback: return original text
@@ -63,7 +75,8 @@ export async function translateMessage(
 }
 
 /**
- * Translate multiple messages in a conversation
+ * Translate multiple messages in a conversation using Lingo.dev
+ * This maintains context across messages for better translation quality
  */
 export async function translateConversation(
   messages: Array<{ name: string; text: string }>,
@@ -83,11 +96,16 @@ export async function translateConversation(
   }
 
   try {
+    console.log(
+      `Translating conversation (${messages.length} messages) from ${sourceLanguage} to ${targetLanguage}`
+    );
+
     const translated = await lingoDotDev.localizeChat(messages, {
       sourceLocale: sourceLanguage,
       targetLocale: targetLanguage,
     });
 
+    console.log(`Conversation translated successfully`);
     return translated;
   } catch (error) {
     console.error("Conversation translation error:", error);
@@ -96,7 +114,7 @@ export async function translateConversation(
 }
 
 /**
- * Batch translate multiple texts (for UI strings, etc.)
+ * Batch translate multiple texts using Lingo.dev
  */
 export async function batchTranslate(
   texts: string[],
@@ -135,7 +153,6 @@ export async function batchTranslate(
 
 /**
  * Language code mapping for Lingo.dev
- * Maps common language codes to Lingo.dev locale codes
  */
 export const LANGUAGE_CODES: Record<string, string> = {
   en: "en",
@@ -145,9 +162,7 @@ export const LANGUAGE_CODES: Record<string, string> = {
   de: "de",
   zh: "zh",
   ja: "ja",
-  ko: "ko",
   pt: "pt",
-  ru: "ru",
   ar: "ar",
   it: "it",
   nl: "nl",
@@ -155,14 +170,12 @@ export const LANGUAGE_CODES: Record<string, string> = {
   tr: "tr",
   vi: "vi",
   th: "th",
-  id: "id",
 };
 
 /**
  * Normalize language code for Lingo.dev
  */
 export function normalizeLanguageCode(code: string): string {
-  // Handle codes like "en-US" -> "en"
   const baseCode = code.split("-")[0].toLowerCase();
   return LANGUAGE_CODES[baseCode] || baseCode;
 }

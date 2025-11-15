@@ -11,7 +11,7 @@ export default function ChatPage() {
   const [customerName, setCustomerName] = useState<string>("");
   const [language, setLanguage] = useState<string>("en");
   const [isSessionStarted, setIsSessionStarted] = useState(false);
-  
+
   const socket = useSocket();
 
   const startSession = () => {
@@ -75,10 +75,10 @@ export default function ChatPage() {
         <div className="absolute top-4 right-4">
           <LanguageSwitcher />
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-xl max-w-md w-full">
           <h1 className="text-3xl font-bold mb-6 text-center">Start Chat</h1>
-          
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">Your Name</label>
@@ -133,7 +133,7 @@ export default function ChatPage() {
             userRole="CUSTOMER"
             language={language}
           />
-          
+
           <ImageUpload
             sessionId={sessionId}
             language={language}
