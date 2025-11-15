@@ -36,8 +36,22 @@ export function ChatBox({ sessionId, userRole, language }: ChatBoxProps) {
       setMessages((prev) => [...prev, message]);
     });
 
-    // TODO: Load message history from API
-    // fetchMessageHistory(sessionId);
+    // Load message history from API
+    const fetchMessageHistory = async () => {
+      try {
+        const response = await fetch(`/api/sessions/${sessionId}/messages`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.messages) {
+            setMessages(data.messages);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching message history:", error);
+      }
+    };
+
+    fetchMessageHistory();
 
     return () => {
       socket.off("new-message");
@@ -54,12 +68,12 @@ export function ChatBox({ sessionId, userRole, language }: ChatBoxProps) {
     setIsLoading(true);
 
     try {
-      // TODO: Call translation API before sending
       const messageData = {
         sessionId,
         senderRole: userRole,
         originalText: inputText,
         originalLanguage: language,
+        // Target language will be determined by server based on role
       };
 
       socket.emit("send-message", messageData);

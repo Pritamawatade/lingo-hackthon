@@ -30,10 +30,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Translate extracted text
+    // Translate extracted text using Lingo.dev
+    // Assume extracted text is in English by default, or detect language
     const translatedText = await translateMessage(
       extractedText,
-      "auto", // Auto-detect source language
+      "en", // Assume English source for OCR text
       language
     );
 

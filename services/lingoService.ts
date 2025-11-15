@@ -1,55 +1,60 @@
 /**
- * Lingo Translation Service
- * 
- * This service integrates with Lingo CLI/API for translation.
- * Replace with actual Lingo SDK implementation.
+ * Lingo.dev Translation Service
+ *
+ * Real implementation using Lingo.dev SDK for chat translation
  */
 
-interface TranslationResponse {
-  translatedText: string;
-  sourceLanguage: string;
-  targetLanguage: string;
+import { LingoDotDevEngine } from "lingo.dev/sdk";
+
+// Initialize Lingo.dev engine
+const getLingoDotDev = () => {
+  const apiKey = process.env.LINGODOTDEV_API_KEY;
+
+  if (!apiKey) {
+    console.warn("LINGODOTDEV_API_KEY not configured");
+    return null;
+  }
+
+  return new LingoDotDevEngine({
+    apiKey,
+  });
+};
+
+interface ChatMessage {
+  name: string;
+  text: string;
 }
 
 /**
- * Translate text using Lingo API
+ * Translate a single message using Lingo.dev
  */
 export async function translateMessage(
   text: string,
   sourceLanguage: string,
   targetLanguage: string
 ): Promise<string> {
-  // TODO: Replace with actual Lingo API integration
-  
-  const LINGO_API_KEY = process.env.LINGO_API_KEY;
-  const LINGO_API_URL = process.env.LINGO_API_URL;
+  const lingoDotDev = getLingoDotDev();
 
-  if (!LINGO_API_KEY || !LINGO_API_URL) {
-    console.warn("Lingo API not configured, returning original text");
+  if (!lingoDotDev) {
+    console.warn("Lingo.dev not configured, returning original text");
+    return text;
+  }
+
+  // Skip translation if source and target are the same
+  if (sourceLanguage === targetLanguage) {
     return text;
   }
 
   try {
-    // Example API call structure - adjust based on actual Lingo API
-    const response = await fetch(`${LINGO_API_URL}/translate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${LINGO_API_KEY}`,
-      },
-      body: JSON.stringify({
-        text,
-        source_language: sourceLanguage,
-        target_language: targetLanguage,
-      }),
+    // Use localizeChat for single message
+    const conversation: ChatMessage[] = [{ name: "user", text }];
+
+    const translated = await lingoDotDev.localizeChat(conversation, {
+      sourceLocale: sourceLanguage,
+      targetLocale: targetLanguage,
     });
 
-    if (!response.ok) {
-      throw new Error(`Translation API error: ${response.statusText}`);
-    }
-
-    const data: TranslationResponse = await response.json();
-    return data.translatedText;
+    return translated[0]?.text || text;
   } catch (error) {
     console.error("Translation error:", error);
     // Fallback: return original text
@@ -58,45 +63,113 @@ export async function translateMessage(
 }
 
 /**
- * Batch translate multiple texts
+ * Translate multiple messages in a conversation
+ */
+export async function translateConversation(
+  messages: Array<{ name: string; text: string }>,
+  sourceLanguage: string,
+  targetLanguage: string
+): Promise<Array<{ name: string; text: string }>> {
+  const lingoDotDev = getLingoDotDev();
+
+  if (!lingoDotDev) {
+    console.warn("Lingo.dev not configured, returning original messages");
+    return messages;
+  }
+
+  // Skip translation if source and target are the same
+  if (sourceLanguage === targetLanguage) {
+    return messages;
+  }
+
+  try {
+    const translated = await lingoDotDev.localizeChat(messages, {
+      sourceLocale: sourceLanguage,
+      targetLocale: targetLanguage,
+    });
+
+    return translated;
+  } catch (error) {
+    console.error("Conversation translation error:", error);
+    return messages;
+  }
+}
+
+/**
+ * Batch translate multiple texts (for UI strings, etc.)
  */
 export async function batchTranslate(
   texts: string[],
   sourceLanguage: string,
   targetLanguage: string
 ): Promise<string[]> {
-  // TODO: Implement batch translation for efficiency
-  return Promise.all(
-    texts.map((text) => translateMessage(text, sourceLanguage, targetLanguage))
-  );
-}
+  const lingoDotDev = getLingoDotDev();
 
-/**
- * Detect language of text
- */
-export async function detectLanguage(text: string): Promise<string> {
-  // TODO: Implement language detection via Lingo API
-  const LINGO_API_KEY = process.env.LINGO_API_KEY;
-  const LINGO_API_URL = process.env.LINGO_API_URL;
+  if (!lingoDotDev) {
+    return texts;
+  }
 
-  if (!LINGO_API_KEY || !LINGO_API_URL) {
-    return "en"; // Default to English
+  // Skip translation if source and target are the same
+  if (sourceLanguage === targetLanguage) {
+    return texts;
   }
 
   try {
-    const response = await fetch(`${LINGO_API_URL}/detect`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${LINGO_API_KEY}`,
-      },
-      body: JSON.stringify({ text }),
+    // Convert texts to chat format
+    const conversation: ChatMessage[] = texts.map((text, index) => ({
+      name: `msg_${index}`,
+      text,
+    }));
+
+    const translated = await lingoDotDev.localizeChat(conversation, {
+      sourceLocale: sourceLanguage,
+      targetLocale: targetLanguage,
     });
 
-    const data = await response.json();
-    return data.language || "en";
+    return translated.map((msg) => msg.text);
   } catch (error) {
-    console.error("Language detection error:", error);
-    return "en";
+    console.error("Batch translation error:", error);
+    return texts;
   }
+}
+
+/**
+ * Language code mapping for Lingo.dev
+ * Maps common language codes to Lingo.dev locale codes
+ */
+export const LANGUAGE_CODES: Record<string, string> = {
+  en: "en",
+  es: "es",
+  hi: "hi",
+  fr: "fr",
+  de: "de",
+  zh: "zh",
+  ja: "ja",
+  ko: "ko",
+  pt: "pt",
+  ru: "ru",
+  ar: "ar",
+  it: "it",
+  nl: "nl",
+  pl: "pl",
+  tr: "tr",
+  vi: "vi",
+  th: "th",
+  id: "id",
+};
+
+/**
+ * Normalize language code for Lingo.dev
+ */
+export function normalizeLanguageCode(code: string): string {
+  // Handle codes like "en-US" -> "en"
+  const baseCode = code.split("-")[0].toLowerCase();
+  return LANGUAGE_CODES[baseCode] || baseCode;
+}
+
+/**
+ * Check if Lingo.dev is configured
+ */
+export function isLingoConfigured(): boolean {
+  return !!process.env.LINGODOTDEV_API_KEY;
 }

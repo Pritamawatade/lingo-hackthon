@@ -25,8 +25,22 @@ export function SessionList({ onSelectSession, selectedSession }: SessionListPro
   useEffect(() => {
     if (!socket) return;
 
-    // TODO: Fetch sessions from API
-    // fetchActiveSessions();
+    // Fetch active sessions from API
+    const fetchActiveSessions = async () => {
+      try {
+        const response = await fetch("/api/sessions");
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.sessions) {
+            setSessions(data.sessions);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching sessions:", error);
+      }
+    };
+
+    fetchActiveSessions();
 
     // Listen for new sessions
     socket.on("new-session", (session: Session) => {
@@ -35,7 +49,7 @@ export function SessionList({ onSelectSession, selectedSession }: SessionListPro
 
     socket.on("session-updated", (session: Session) => {
       setSessions((prev) =>
-        prev.map((s) => (s.id === session.id ? session : s))
+        prev.map((s) => (s.id === session.id ? { ...s, ...session } : s))
       );
     });
 

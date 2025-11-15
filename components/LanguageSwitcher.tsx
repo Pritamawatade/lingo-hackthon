@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Globe } from "lucide-react";
-
+import { useLingoLocale, setLingoLocale } from "lingo.dev/react/client";
 const languages = [
   { code: "en", name: "English", flag: "🇬🇧" },
   { code: "es", name: "Español", flag: "🇪🇸" },
@@ -14,6 +14,7 @@ const languages = [
 
 export function LanguageSwitcher() {
   const [currentLanguage, setCurrentLanguage] = useState("en");
+    const currentLocale = useLingoLocale();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLanguageChange = (code: string) => {
@@ -46,7 +47,7 @@ export function LanguageSwitcher() {
             {languages.map((lang) => (
               <button
                 key={lang.code}
-                onClick={() => handleLanguageChange(lang.code)}
+                onClick={(e) => setLingoLocale(lang.code)}
                 className={`w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${
                   lang.code === currentLanguage ? "bg-blue-50 dark:bg-blue-900/20" : ""
                 }`}

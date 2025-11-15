@@ -20,19 +20,53 @@ export default function ChatPage() {
       return;
     }
 
-    // TODO: Create session via API
-    const newSessionId = `session_${Date.now()}`;
-    setSessionId(newSessionId);
-    setIsSessionStarted(true);
+    // Create session via API
+    const createSession = async () => {
+      try {
+        const response = await fetch("/api/sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            customerName,
+            customerLanguage: language,
+          }),
+        });
 
-    // Join socket room
-    if (socket) {
-      socket.emit("join-session", {
-        sessionId: newSessionId,
-        customerName,
-        language,
-      });
-    }
+        if (response.ok) {
+          const data = await response.json();
+          const newSessionId = data.session?.id || `session_${Date.now()}`;
+          setSessionId(newSessionId);
+          setIsSessionStarted(true);
+
+          // Join socket room
+          if (socket) {
+            socket.emit("join-session", {
+              sessionId: newSessionId,
+              customerName,
+              language,
+            });
+          }
+        } else {
+          throw new Error("Failed to create session");
+        }
+      } catch (error) {
+        console.error("Error creating session:", error);
+        // Fallback to client-side session ID
+        const newSessionId = `session_${Date.now()}`;
+        setSessionId(newSessionId);
+        setIsSessionStarted(true);
+
+        if (socket) {
+          socket.emit("join-session", {
+            sessionId: newSessionId,
+            customerName,
+            language,
+          });
+        }
+      }
+    };
+
+    createSession();
   };
 
   if (!isSessionStarted) {

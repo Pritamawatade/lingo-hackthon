@@ -77,13 +77,23 @@ app.prepare().then(() => {
 
     // Handle message sending
     socket.on("send-message", async (data) => {
-      const { sessionId, senderRole, originalText, originalLanguage } = data;
+      const { sessionId, senderRole, originalText, originalLanguage, targetLanguage } = data;
 
       try {
-        // TODO: Implement translation via Lingo API
-        const targetLanguage =
-          senderRole === "CUSTOMER" ? "en" : originalLanguage;
-        const translatedText = originalText; // Replace with actual translation
+        // Import translation service
+        const { translateMessage } = require("./services/lingoService.js");
+
+        // Determine target language
+        // If customer sends message, translate to agent's language (usually 'en')
+        // If agent sends message, translate to customer's language
+        const finalTargetLanguage = targetLanguage || (senderRole === "CUSTOMER" ? "en" : originalLanguage);
+
+        // Translate message using Lingo.dev
+        const translatedText = await translateMessage(
+          originalText,
+          originalLanguage,
+          finalTargetLanguage
+        );
 
         const message = {
           id: `msg_${Date.now()}`,
@@ -92,12 +102,14 @@ app.prepare().then(() => {
           originalText,
           originalLanguage,
           translatedText,
-          translatedLanguage: targetLanguage,
+          translatedLanguage: finalTargetLanguage,
           messageType: "TEXT",
           createdAt: new Date().toISOString(),
         };
 
-        // TODO: Save message to database
+        // TODO: Save message to database with Prisma
+        // const { prisma } = require('./lib/prisma');
+        // await prisma.message.create({ data: message });
 
         // Broadcast to all clients in the session
         io.to(sessionId).emit("new-message", message);

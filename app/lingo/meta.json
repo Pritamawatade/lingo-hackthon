@@ -1,0 +1,461 @@
+{
+  "version": 0.1,
+  "files": {
+    "../components/ChatBox.tsx": {
+      "scopes": {
+        "5/declaration/body/9/argument/11/1/1-placeholder": {
+          "type": "attribute",
+          "hash": "4008b1f253209d175716ab5b78014cd6",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Type your message..."
+        },
+        "5/declaration/body/9/argument/11/1/3": {
+          "type": "element",
+          "hash": "e7888d6f61f9a15f2810183e364ac519",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "<element:Send></element:Send> Send"
+        },
+        "5/declaration/body/9/argument/3/3": {
+          "type": "element",
+          "hash": "fcf7ded2eeea46058f6eeb3570167eda",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Session: <function:sessionId.slice/>..."
+        },
+        "5/declaration/body/9/argument/7/1/expression/alternate/0/body/1/1/expression/right-alt": {
+          "type": "attribute",
+          "hash": "cc04b77fa4bfd479fc80b05a769d49ce",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Uploaded"
+        },
+        "5/declaration/body/9/argument/7/1/expression/alternate/0/body/1/7/expression/right": {
+          "type": "element",
+          "hash": "d429cb0fe01f4383924ed0d30a81547d",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Original: {message.originalText}"
+        },
+        "5/declaration/body/9/argument/7/1/expression/consequent": {
+          "type": "element",
+          "hash": "23c397ca329ae0afa335934bc11ff3f2",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "No messages yet. Start the conversation!"
+        }
+      }
+    },
+    "../components/ImageUpload.tsx": {
+      "scopes": {
+        "3/declaration/body/8/argument/1": {
+          "type": "element",
+          "hash": "24689deb4d82be6d7ac7d95e0271cadd",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Image Translation"
+        },
+        "3/declaration/body/8/argument/3/11/expression/right/3": {
+          "type": "element",
+          "hash": "eb17e09bbe44e202ed7125f0358db48c",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Processing image..."
+        },
+        "3/declaration/body/8/argument/3/15/expression/right/1/1": {
+          "type": "element",
+          "hash": "58201a7b3c3300f87ccda25de1909e18",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Extracted Text:"
+        },
+        "3/declaration/body/8/argument/3/15/expression/right/3/expression/right/1": {
+          "type": "element",
+          "hash": "9ca648d6db0009c42389db34937aa6a5",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Translation:"
+        },
+        "3/declaration/body/8/argument/3/3/expression/alternate/1-alt": {
+          "type": "attribute",
+          "hash": "3173ee1f0f1d4e50665ca4a84c38e15d",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Preview"
+        },
+        "3/declaration/body/8/argument/3/3/expression/consequent/1/3": {
+          "type": "element",
+          "hash": "a6ae3004acdb682cfe83c4cf7a6ee967",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "<element:span>Click to upload</element:span> or drag and drop"
+        },
+        "3/declaration/body/8/argument/3/3/expression/consequent/1/5": {
+          "type": "element",
+          "hash": "d1c26399789c695c64ede83566e7c236",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "PNG, JPG, JPEG (MAX. 10MB)"
+        },
+        "3/declaration/body/8/argument/3/7/expression/right": {
+          "type": "element",
+          "hash": "b2a59e916aec3b576e510e4e3c9e749d",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Extract & Translate Text"
+        }
+      }
+    },
+    "../components/SessionList.tsx": {
+      "scopes": {
+        "5/declaration/body/4/argument/1/1": {
+          "type": "element",
+          "hash": "a0de4bbd1e4be3c7d8032991ddef14e7",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Active Sessions"
+        },
+        "5/declaration/body/4/argument/1/3": {
+          "type": "element",
+          "hash": "0c9775f92544d4d705053b0eb072f39a",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "{sessions.length} active"
+        },
+        "5/declaration/body/4/argument/3/1/expression/consequent/3": {
+          "type": "element",
+          "hash": "a097214ff76ccf61fbed7b6b5c33f753",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "No active sessions"
+        }
+      }
+    },
+    "chat/page.tsx": {
+      "scopes": {
+        "5/declaration/body/6/consequent/0/argument/3/1": {
+          "type": "element",
+          "hash": "91a0d757438a7a66bd8a2c1917ecc55d",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Start Chat"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/1/1": {
+          "type": "element",
+          "hash": "03c6ae7996d5841f743cd406b4eff72d",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Your Name"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/1/3-placeholder": {
+          "type": "attribute",
+          "hash": "cd95fbdd0533f2c2e8edf9d9bd9aa8df",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Enter your name"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/3/1": {
+          "type": "element",
+          "hash": "a0ae4768d6c1835ef7211438e54e6fb9",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Your Language"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/3/3/1": {
+          "type": "element",
+          "hash": "e1eeeb379f86a015d6e581fcbc4af7f3",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "English"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/3/3/11": {
+          "type": "element",
+          "hash": "ebbe0f0da700961b5687182201cd7429",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Chinese"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/3/3/3": {
+          "type": "element",
+          "hash": "881640609abd94ca50cbafb21f085042",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Spanish"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/3/3/5": {
+          "type": "element",
+          "hash": "83ef511fe3291eb3eeb7404470003c4b",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Hindi"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/3/3/7": {
+          "type": "element",
+          "hash": "b6c77a4e718a978af58895b27731413c",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "French"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/3/3/9": {
+          "type": "element",
+          "hash": "1e23c97d063f7235e94e00517f1786c2",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "German"
+        },
+        "5/declaration/body/6/consequent/0/argument/3/3/5": {
+          "type": "element",
+          "hash": "2d88fbaa2ea92b05599de60efa979a0b",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Start Chat"
+        },
+        "5/declaration/body/7/argument/1/1/1": {
+          "type": "element",
+          "hash": "bd9ee9c4bdbe835a675df413bbf0e5e0",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Chat Support"
+        }
+      }
+    },
+    "dashboard/page.tsx": {
+      "scopes": {
+        "4/declaration/body/6/consequent/0/argument/1/1": {
+          "type": "element",
+          "hash": "5e055b5935dfa8fffb1325a7adf03fd9",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Agent Login"
+        },
+        "4/declaration/body/6/consequent/0/argument/1/3/1/1": {
+          "type": "element",
+          "hash": "e7f34943a0c2fb849db1839ff6ef5cb5",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Email"
+        },
+        "4/declaration/body/6/consequent/0/argument/1/3/1/3-placeholder": {
+          "type": "attribute",
+          "hash": "b12a48f9f737e75400b4e8399a325b8f",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "agent@example.com"
+        },
+        "4/declaration/body/6/consequent/0/argument/1/3/3/1": {
+          "type": "element",
+          "hash": "223a61cf906ab9c40d22612c588dff48",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Password"
+        },
+        "4/declaration/body/6/consequent/0/argument/1/3/3/3-placeholder": {
+          "type": "attribute",
+          "hash": "5ee7cd1a4a7fe6fb896e8a0c4b2d7255",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "••••••••"
+        },
+        "4/declaration/body/6/consequent/0/argument/1/3/5": {
+          "type": "element",
+          "hash": "6ac69acd1073e0fa5f6a730411bfa465",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Login"
+        },
+        "4/declaration/body/7/argument/1/1/1": {
+          "type": "element",
+          "hash": "daa43d5bd5167429606d4b4f2b6c819b",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Agent Dashboard"
+        },
+        "4/declaration/body/7/argument/1/3/3/1/expression/alternate/1": {
+          "type": "element",
+          "hash": "459d3930d0224c954544b992e8ebd9e1",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Select a session to start chatting"
+        }
+      }
+    },
+    "page.tsx": {
+      "scopes": {
+        "2/declaration/body/0/argument/1/3/1": {
+          "type": "element",
+          "hash": "5935bc8c3750a79cbb9c97d11f4c7611",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Multilingual Support System"
+        },
+        "2/declaration/body/0/argument/1/3/3": {
+          "type": "element",
+          "hash": "9925d9276c307d08ec1222161ff970ce",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Connect with customers in any language. Real-time translation powered by AI."
+        },
+        "2/declaration/body/0/argument/1/3/5/1/1": {
+          "type": "element",
+          "hash": "e73c18a69df769ed49da56c929e8470a",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "💬"
+        },
+        "2/declaration/body/0/argument/1/3/5/1/3": {
+          "type": "element",
+          "hash": "7005d0d73c22ee38dcdc1bb59179d4ca",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Customer Chat"
+        },
+        "2/declaration/body/0/argument/1/3/5/1/5": {
+          "type": "element",
+          "hash": "3700481fe7024a8b2f97bc2b6205f778",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Start a conversation in your language"
+        },
+        "2/declaration/body/0/argument/1/3/5/3/1": {
+          "type": "element",
+          "hash": "b4fa8416d20289c452d2c2aa1501ea63",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "🎧"
+        },
+        "2/declaration/body/0/argument/1/3/5/3/3": {
+          "type": "element",
+          "hash": "daa43d5bd5167429606d4b4f2b6c819b",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Agent Dashboard"
+        },
+        "2/declaration/body/0/argument/1/3/5/3/5": {
+          "type": "element",
+          "hash": "968862bf4a8fa2f52553f4cb773e79a3",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Manage customer conversations"
+        },
+        "2/declaration/body/0/argument/1/3/7/1/1": {
+          "type": "element",
+          "hash": "1298388dded612d1849f66223141db43",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "🌍"
+        },
+        "2/declaration/body/0/argument/1/3/7/1/3": {
+          "type": "element",
+          "hash": "e9b173fff343ee10c7594e33045ad8c9",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Multi-Language"
+        },
+        "2/declaration/body/0/argument/1/3/7/1/5": {
+          "type": "element",
+          "hash": "98bced60d4470f358ce1b51a48067880",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Support for 100+ languages"
+        },
+        "2/declaration/body/0/argument/1/3/7/3/1": {
+          "type": "element",
+          "hash": "9326b255b019b5169a7212a71c7a5cce",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "⚡"
+        },
+        "2/declaration/body/0/argument/1/3/7/3/3": {
+          "type": "element",
+          "hash": "8d7cf3bffe9c2ceb5e7f1c82350a2643",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Real-Time"
+        },
+        "2/declaration/body/0/argument/1/3/7/3/5": {
+          "type": "element",
+          "hash": "bc3853483205c7049d636ff78d7f58fa",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Instant message translation"
+        },
+        "2/declaration/body/0/argument/1/3/7/5/1": {
+          "type": "element",
+          "hash": "41c6b01c9d84c17aff11caba22358b63",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "📸"
+        },
+        "2/declaration/body/0/argument/1/3/7/5/3": {
+          "type": "element",
+          "hash": "9caecafd4b97839027d791975b32858c",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Image OCR"
+        },
+        "2/declaration/body/0/argument/1/3/7/5/5": {
+          "type": "element",
+          "hash": "ebb1423d7906745040dd96f762a3aec5",
+          "context": "",
+          "skip": false,
+          "overrides": {},
+          "content": "Extract & translate from images"
+        }
+      }
+    }
+  }
+}

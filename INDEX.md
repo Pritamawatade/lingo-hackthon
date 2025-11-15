@@ -98,6 +98,19 @@ Complete guide to the Multilingual Support System documentation.
     - All issues resolved
     - Verification steps
 
+### Translation & Lingo.dev
+12. **[LINGO_INTEGRATION.md](LINGO_INTEGRATION.md)** 🌍
+    - Lingo.dev SDK setup
+    - Translation implementation
+    - Supported languages (18+)
+    - Testing & troubleshooting
+
+13. **[TRANSLATION_COMPLETE.md](TRANSLATION_COMPLETE.md)** ✅
+    - All TODOs resolved
+    - Feature complete summary
+    - Quick start guide
+    - Testing checklist
+
 ### Legal
 
 12. **[LICENSE](LICENSE)** 📄
